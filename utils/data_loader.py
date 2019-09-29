@@ -119,13 +119,10 @@ class Dataset_Loader():
     def get_testset(self):
         inputs = []
         labels = []
-        logs = []
-        label_posses = []
 
         for i in range(len(self.labels_fn_test)) :
             #pick
-            rand_idx = random.randint(0, len(self.labels_fn_test) - 1)
-            input, label = self.fn_to_single_image_pair(self.labels_fn_test[rand_idx])
+            input, label = self.fn_to_single_image_pair(self.labels_fn_test[i])
 
             # preprocess
             input = input[..., 0:self.num_channels]

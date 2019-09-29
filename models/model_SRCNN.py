@@ -140,9 +140,9 @@ class Model_Train():
 
         """ return log str """
         reulst_log = "loss : {}, PSNR: {}, SSIM: {}".format(
-            round(predictions["[s]loss"], 4),
-            round(predictions["[s]metric/PSNR"],4),
-            round(predictions["[s]metric/SSIM"],4),
+            np.round(predictions["[s]loss"], 4),
+            np.round(predictions["[s]metric/PSNR"],4),
+            np.round(predictions["[s]metric/SSIM"],4),
         )
 
         """ summarize """
@@ -166,10 +166,10 @@ class Model_Train():
 
         """ return log str """
         log = "Median of elapse : {}, BICUBIC_PSNR: {}, PSNR: {}, SSIM: {}".format(
-            round(np.mean(elapses), 4),
-            round(predictions["[_]metric/BICUBIC_PSNR_test"], 4),
-            round(predictions["[_]metric/PSNR_test"], 4),
-            round(predictions["[_]metric/SSIM_test"], 4),
+            np.round(np.mean(elapses), 4),
+            np.round(predictions["[_]metric/BICUBIC_PSNR_test"], 4),
+            np.round(predictions["[_]metric/PSNR_test"], 4),
+            np.round(predictions["[_]metric/SSIM_test"], 4),
         )
 
         return log, denormalize(output), denormalize(label_test), denormalize(input_test)
@@ -177,6 +177,7 @@ class Model_Train():
 
     def test_step(self,iterator, do_summarize = True):
         elapses = []
+        BICUBIC_PSRNs = []
         PSNRs = []
         SSIMs = []
         for input_test, label_test in iterator:
@@ -184,22 +185,24 @@ class Model_Train():
             predictions = self.sess.run(self.predictions_test, feed_dict={self.input_test:input_test, self.label_test:label_test})
             elapse = time.time() - start
             elapses.append(elapse)
+            BICUBIC_PSRNs.append(predictions["[_]metric/BICUBIC_PSNR_test"])
             PSNRs.append(predictions["[_]metric/PSNR_test"])
             SSIMs.append(predictions["[_]metric/SSIM_test"])
         """ return log str """
-        log = "Median of elapse : {}, PSNR: {}, SSIM: {}".format(
-            round(np.mean(elapses), 4),
-            round(np.mean(PSNRs), 4),
-            round(np.mean(SSIMs), 4),
+        log = "Median of elapse : {}, BICUBIC_PSRN: {}, PSNR: {}, SSIM: {}".format(
+            np.round(np.mean(elapses), 4),
+            np.round(np.mean(BICUBIC_PSRNs), 4),
+            np.round(np.mean(PSNRs), 4),
+            np.round(np.mean(SSIMs), 4),
         )
 
         """ summarize """
         if do_summarize == True:
-            output = predictions["[i]outputs/generator_test"]
+            output = predictions["[i]outputs/generator_test"] #summarize only last output
             summary = self.sess.run(self.summary_test_op,
                                     feed_dict={self.summaryholder_output:output,
-                                               self.summaryholder_PSNR:round(np.mean(PSNRs), 4),
-                                               self.summaryholder_SSIM:round(np.mean(SSIMs), 4)})
+                                               self.summaryholder_PSNR:np.round(np.mean(PSNRs), 4),
+                                               self.summaryholder_SSIM:np.round(np.mean(SSIMs), 4)})
             self.summary_writer.add_summary(summary, self.tensor2numpy(self.step))
             self.summary_writer.flush()
 

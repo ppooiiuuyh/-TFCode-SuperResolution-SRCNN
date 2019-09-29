@@ -22,13 +22,13 @@ parser.add_argument("--gpu", type=str, default=1)  # -1 for CPU
 parser.add_argument("--model_tag", type=str, default="default", help='Exp name to save logs/checkpoints.')
 parser.add_argument("--checkpoint_dir", type=str, default='../__outputs/checkpoints/', help='Dir for checkpoints.')
 parser.add_argument("--summary_dir", type=str, default='../__outputs/summaries/', help='Dir for tensorboard logs.')
-parser.add_argument("--restore_model_file", type=str, default=None, help='file for resotration')
-#parser.add_argument("--restore_model_file", type=str, default='../__outputs/checkpoints/SRCNN_SRCNN_model_default_09_29_15_10_00/model.ckpt-170', help='file for resotration')
+parser.add_argument("--restore_model_file", type=str, default=None, help='file for restoration')
+#parser.add_argument("--restore_model_file", type=str, default='../__outputs/checkpoints/SRCNN_SRCNN_model_default_09_29_17_00_35/model.ckpt-5000', help='file for resotration')
 
 """ model """
 parser.add_argument("--batch_size", type=int, default=64, help='Minibatch size(global)')
 parser.add_argument("--patch_size", type=int, default=33, help='Minipatch size(global)')
-#parser.add_argument("--patch_stride", type=int, default=13, help='patch stride')
+#parser.add_argument("--patch_stride", type=int, default=13, help='patch stride') #we just sample patches randomly for simplicity
 parser.add_argument("--operating_channel", type=str, default="RGB", help="operating channel [RGB, YCBCR")  # -1 for CPU
 parser.add_argument("--num_channels", type=int, default=3, help='the number of channels')
 parser.add_argument("--scale", type=int, default=3, help='scaling factor')
@@ -79,7 +79,7 @@ if config.restore_model_file is not None:
 prepare dataset
 ---------------------------------------------------------------------"""
 trainset_loader = Dataset_Loader(data_root_path = config.data_root_train, test_split_ratio = -1, config = config)
-testset_loader = Dataset_Loader(data_root_path = config.data_root_test, test_split_ratio = -1, config = config)
+testset_loader = Dataset_Loader(data_root_path = config.data_root_test, test_split_ratio = -1, config = config) #-1 for using all
 
 
 
