@@ -14,7 +14,8 @@ tensorflow implementation of SRCNN
  * This code use Adam optimizer instead of GradienDecentent Optimizer differently from the original (it can be easily modified).
  * This code supports tensorboard summarization
  * This code supports model saving and restoration
-
+ * We use convolution with "same pading" for simplicity
+ * this code uses PILLOW library to resize image. Note that the performance of Bicubic function in PILLOW is lower than that of Matlab library. 
 
 ## Usage
 ```
