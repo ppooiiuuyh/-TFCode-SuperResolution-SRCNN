@@ -63,7 +63,7 @@ config = parser.parse_args()
 ## References
 * [tegg89/SRCNN-Tensorflow](https://github.com/tegg89/SRCNN-Tensorflow) : reference source code
 * [SRCNN](https://arxiv.org/abs/1501.00092) : reference paper
-
+* [taki0112/Tensorflow-cookbook](https://github.com/taki0112/Tensorflow-Cookbook) : useful tensorflow cook reference
 
 ## Author
 Dohyun Kim
